@@ -2,7 +2,7 @@ import 'package:app_marvel/feature/home/domain/entities/value_object/quadrinhos.
 import 'package:equatable/equatable.dart';
 
 class HeroEntity extends Equatable {
-  final String id;
+  final int id;
   final String name;
   final String image;
   final String? realName;
