@@ -1,5 +1,6 @@
 import 'package:app_marvel/feature/home/domain/repositories/hero_repository.dart';
 import 'package:app_marvel/feature/home/domain/usecases/get_all_heroes.dart';
+import 'package:app_marvel/feature/home/domain/usecases/get_hero_with_id.dart';
 import 'package:app_marvel/feature/home/external/marvel_dio.dart';
 import 'package:app_marvel/feature/home/infra/datasource/hero_datasource.dart';
 import 'package:app_marvel/feature/home/infra/repositories/hero_repository.dart';
@@ -19,6 +20,10 @@ Future<void> initInject() async {
 
   //usecase
   sl.registerLazySingleton<IGetAllHeroes>(() => GetAllHeroes(
+        repository: sl(),
+        connectivityService: sl(),
+      ));
+  sl.registerLazySingleton<IGetHeroWithID>(() => GetHeroWithID(
         repository: sl(),
         connectivityService: sl(),
       ));

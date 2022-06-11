@@ -4,7 +4,9 @@ import 'package:equatable/equatable.dart';
 class HeroEntity extends Equatable {
   final int id;
   final String name;
-  final String image;
+  final String imageSmall;
+
+  final String imageBig;
   final String? realName;
   final String? description;
   final List<Quadrinhos>? quadrinhos;
@@ -12,7 +14,8 @@ class HeroEntity extends Equatable {
   const HeroEntity({
     required this.id,
     required this.name,
-    required this.image,
+    required this.imageSmall,
+    required this.imageBig,
     this.realName,
     this.description,
     this.quadrinhos,
@@ -22,7 +25,8 @@ class HeroEntity extends Equatable {
   List<Object?> get props => [
         id,
         name,
-        image,
+        imageSmall,
+        imageBig,
         realName,
         description,
         quadrinhos,

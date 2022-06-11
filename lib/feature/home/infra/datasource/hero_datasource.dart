@@ -1,3 +1,4 @@
 abstract class IHeroDatasource {
-  Future<List> getAllHeroes();
+  Future<List> getHeroes(int offset);
+  Future<List> getHeroesWithID(int id);
 }

@@ -5,23 +5,23 @@ import 'package:app_marvel/feature/home/domain/entities/hero_entity.dart';
 import 'package:app_marvel/feature/home/domain/repositories/hero_repository.dart';
 import 'package:dartz/dartz.dart';
 
-abstract class IGetAllHeroes {
-  Future<Either<Failure, List<HeroEntity>>> call(int offset);
+abstract class IGetHeroWithID {
+  Future<Either<Failure, HeroEntity>> call(int id);
 }
 
-class GetAllHeroes implements IGetAllHeroes {
+class GetHeroWithID implements IGetHeroWithID {
   final IHeroRepository repository;
   final ConnectivityService connectivityService;
 
-  GetAllHeroes({required this.repository, required this.connectivityService});
+  GetHeroWithID({required this.repository, required this.connectivityService});
 
   @override
-  Future<Either<Failure, List<HeroEntity>>> call(int offset) async {
+  Future<Either<Failure, HeroEntity>> call(int id) async {
     final isOnline = await connectivityService.isOnline();
     if (!isOnline) {
       return Left(
           ConnectionError(message: FailureMessage.connectionErrorMessage));
     }
-    return repository.getHeroes(offset);
+    return repository.getHeroWithId(id);
   }
 }

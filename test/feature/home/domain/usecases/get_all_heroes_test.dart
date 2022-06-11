@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:app_marvel/core/domain/connectivity_service.dart';
 import 'package:app_marvel/core/errors/errors.dart';
 import 'package:app_marvel/core/errors/failure.dart';
 import 'package:app_marvel/feature/home/domain/entities/hero_entity.dart';
@@ -11,17 +12,21 @@ import 'package:mocktail/mocktail.dart';
 
 class HeroRepositoryMock extends Mock implements IHeroRepository {}
 
+class ConnectivityServiceMock extends Mock implements ConnectivityService {}
+
 class HeroEntityMock extends Mock implements HeroEntity {}
 
 void main() {
   test('deve retornar uma lista de HeroEntity', () async {
     final repository = HeroRepositoryMock();
     final entity = HeroEntityMock();
-    when(() => repository.getAllHeroes())
+    final connectivity = ConnectivityServiceMock();
+    when(() => repository.getHeroes(0))
         .thenAnswer((_) => Future.value(Right([entity])));
-    final usecase = GetAllHeroes(repository);
+    final usecase =
+        GetAllHeroes(repository: repository, connectivityService: connectivity);
 
-    final result = await usecase.call();
+    final result = await usecase.call(0);
 
     expect(result, isA<Right>());
     var resultFold;
@@ -29,14 +34,15 @@ void main() {
     expect(resultFold, isA<List<HeroEntity>>());
   });
 
-  
   test('deve retornar um Failure', () async {
     final repository = HeroRepositoryMock();
-    when(() => repository.getAllHeroes()).thenAnswer((_) => Future.value(
+    final connectivity = ConnectivityServiceMock();
+    when(() => repository.getHeroes(0)).thenAnswer((_) => Future.value(
         Left(QueryError(message: FailureMessage.queryErrorMessage))));
-    final usecase = GetAllHeroes(repository);
+    final usecase =
+        GetAllHeroes(repository: repository, connectivityService: connectivity);
 
-    final result = await usecase.call();
+    final result = await usecase.call(0);
 
     expect(result, isA<Left>());
     var resultFold;

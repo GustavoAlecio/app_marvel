@@ -7,6 +7,9 @@ class AppPages {
   static final List<GetPage> routes = [
     GetPage(name: Routes.homePage, page: () => const HomePage()),
     GetPage(
-        name: Routes.detalhesHeroPage, page: () => const DetalhesHeroPage()),
+        name: Routes.detalhesHeroPage,
+        page: () => const DetalhesHeroPage(
+              id: 0,
+            )),
   ];
 }

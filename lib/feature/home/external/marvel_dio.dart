@@ -14,7 +14,7 @@ class MarvelDioDatasource implements IHeroDatasource {
   );
 
   @override
-  Future<List> getAllHeroes() async {
+  Future<List> getHeroes(int offset) async {
     String ts = DateTime.now().microsecondsSinceEpoch.toString();
 
     var response = await dio.get("/v1/public/characters", queryParameters: {
@@ -22,6 +22,26 @@ class MarvelDioDatasource implements IHeroDatasource {
       "hash": generateMd5("a069735debbdd7bb859ca955b7dc1103",
           "d1270e4324b7941e1ea2a106fb51a344f1da7dfc", ts),
       "ts": ts,
+      'offset': offset,
+    });
+    if (response.statusCode == 200) {
+      List result = response.data["data"]["results"];
+      return result;
+    } else {
+      throw Exception('Erro de consulta');
+    }
+  }
+
+  @override
+  Future<List> getHeroesWithID(int id) async {
+    String ts = DateTime.now().microsecondsSinceEpoch.toString();
+
+    var response = await dio.get("/v1/public/characters", queryParameters: {
+      "apikey": "a069735debbdd7bb859ca955b7dc1103",
+      "hash": generateMd5("a069735debbdd7bb859ca955b7dc1103",
+          "d1270e4324b7941e1ea2a106fb51a344f1da7dfc", ts),
+      "ts": ts,
+      'id': id,
     });
     if (response.statusCode == 200) {
       List result = response.data["data"]["results"];

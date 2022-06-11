@@ -12,21 +12,27 @@ class HeroRepository implements IHeroRepository {
   HeroRepository({required this.datasource});
 
   @override
-  Future<Either<Failure, List<HeroEntity>>> getAllHeroes() async {
-    final response = await datasource.getAllHeroes();
-    List<HeroEntity> lista = response.map(JsonToHero.fromMap).toList();
-    print(lista);
-    return Right(lista);
-    // try {
-    //   final response = await datasource.getAllHeroes();
-    //   var lista = _convert(response);
-    //   return Right(lista);
-    // } catch (e) {
-    //   return Left(QueryError(message: FailureMessage.queryErrorMessage));
-    // }
+  Future<Either<Failure, List<HeroEntity>>> getHeroes(int offset) async {
+    // final response = await datasource.getHeroes(offset);
+    // List<HeroEntity> lista = response.map(JsonToHero.fromMap).toList();
+    // return Right(lista);
+    try {
+      final response = await datasource.getHeroes(offset);
+      List<HeroEntity> lista = response.map(JsonToHero.fromMap).toList();
+      return Right(lista);
+    } catch (e) {
+      return Left(QueryError(message: FailureMessage.queryErrorMessage));
+    }
   }
 
-  List<HeroEntity> _convert(List<Map> list) {
-    return list.map(JsonToHero.fromMap).toList();
+  @override
+  Future<Either<Failure, HeroEntity>> getHeroWithId(int id) async {
+    try {
+      final response = await datasource.getHeroesWithID(id);
+      HeroEntity lista = response.map(JsonToHero.fromMap).toList().first;
+      return Right(lista);
+    } catch (e) {
+      return Left(QueryError(message: FailureMessage.queryErrorMessage));
+    }
   }
 }

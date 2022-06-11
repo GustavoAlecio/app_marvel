@@ -3,5 +3,6 @@ import 'package:app_marvel/feature/home/domain/entities/hero_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class IHeroRepository {
-  Future<Either<Failure, List<HeroEntity>>>getAllHeroes();
+  Future<Either<Failure, List<HeroEntity>>> getHeroes(int offset);
+  Future<Either<Failure, HeroEntity>> getHeroWithId(int id);
 }
