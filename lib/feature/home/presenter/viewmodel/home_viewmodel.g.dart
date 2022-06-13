@@ -16,6 +16,13 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
           Computed<bool>(() => super.isReadyGetMoreHeroes,
               name: '_HomeViewModelBase.isReadyGetMoreHeroes'))
       .value;
+  Computed<bool>? _$isReadyGetMoreComicsComputed;
+
+  @override
+  bool get isReadyGetMoreComics => (_$isReadyGetMoreComicsComputed ??=
+          Computed<bool>(() => super.isReadyGetMoreComics,
+              name: '_HomeViewModelBase.isReadyGetMoreComics'))
+      .value;
 
   late final _$isLoadingAtom =
       Atom(name: '_HomeViewModelBase.isLoading', context: context);
@@ -30,6 +37,22 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
   set isLoading(bool value) {
     _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
+    });
+  }
+
+  late final _$isLoadingComicsAtom =
+      Atom(name: '_HomeViewModelBase.isLoadingComics', context: context);
+
+  @override
+  bool get isLoadingComics {
+    _$isLoadingComicsAtom.reportRead();
+    return super.isLoadingComics;
+  }
+
+  @override
+  set isLoadingComics(bool value) {
+    _$isLoadingComicsAtom.reportWrite(value, super.isLoadingComics, () {
+      super.isLoadingComics = value;
     });
   }
 
@@ -97,6 +120,23 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
     });
   }
 
+  late final _$scrollControllerComicsAtom =
+      Atom(name: '_HomeViewModelBase.scrollControllerComics', context: context);
+
+  @override
+  ScrollController get scrollControllerComics {
+    _$scrollControllerComicsAtom.reportRead();
+    return super.scrollControllerComics;
+  }
+
+  @override
+  set scrollControllerComics(ScrollController value) {
+    _$scrollControllerComicsAtom
+        .reportWrite(value, super.scrollControllerComics, () {
+      super.scrollControllerComics = value;
+    });
+  }
+
   late final _$getHeroesAsyncAction =
       AsyncAction('_HomeViewModelBase.getHeroes', context: context);
 
@@ -111,6 +151,14 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
   @override
   Future<void> getHeroesWithID(int id) {
     return _$getHeroesWithIDAsyncAction.run(() => super.getHeroesWithID(id));
+  }
+
+  late final _$getComicsAsyncAction =
+      AsyncAction('_HomeViewModelBase.getComics', context: context);
+
+  @override
+  Future<dynamic> getComics() {
+    return _$getComicsAsyncAction.run(() => super.getComics());
   }
 
   late final _$_HomeViewModelBaseActionController =
@@ -131,11 +179,14 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
+isLoadingComics: ${isLoadingComics},
 heroList: ${heroList},
 heroEntity: ${heroEntity},
 scrollController: ${scrollController},
 offSetHeroList: ${offSetHeroList},
-isReadyGetMoreHeroes: ${isReadyGetMoreHeroes}
+scrollControllerComics: ${scrollControllerComics},
+isReadyGetMoreHeroes: ${isReadyGetMoreHeroes},
+isReadyGetMoreComics: ${isReadyGetMoreComics}
     ''';
   }
 }

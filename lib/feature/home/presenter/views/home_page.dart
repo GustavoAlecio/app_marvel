@@ -1,10 +1,7 @@
-import 'package:app_marvel/feature/home/presenter/routes/app_pages.dart';
 import 'package:app_marvel/feature/home/presenter/viewmodel/home_viewmodel.dart';
 import 'package:app_marvel/feature/home/presenter/views/detalhe_hero_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
@@ -27,40 +24,42 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Image.asset('assets/images/marvel_logo.png'),
-            backgroundColor: Colors.white,
-            elevation: 0,
-          ),
-          body: Observer(builder: (_) {
-            return CupertinoScrollbar(
-              controller: _vm.scrollController,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: ListView.builder(
+    return SafeArea(
+      child: Observer(builder: (_) {
+        return Scaffold(
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                child: Image.asset('assets/images/marvel_logo.png'),
+              ),
+              Expanded(
+                child: CupertinoScrollbar(
                   controller: _vm.scrollController,
-                  itemCount: _vm.heroList.isNotEmpty ? _vm.heroList.length : 10,
-                  itemBuilder: (BuildContext context, index) {
-                    return !_vm.isLoading
-                        ? CustomCard(
-                            vm: _vm,
-                            index: index,
-                          )
-                        : const CustomCardLoading();
-                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: ListView.builder(
+                      controller: _vm.scrollController,
+                      itemCount:
+                          _vm.heroList.isNotEmpty ? _vm.heroList.length : 10,
+                      itemBuilder: (BuildContext context, index) {
+                        return !_vm.isLoading
+                            ? CustomCard(
+                                vm: _vm,
+                                index: index,
+                              )
+                            : const CustomCardLoading();
+                      },
+                    ),
+                  ),
                 ),
               ),
-            );
-          }),
-        ),
-      ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
@@ -78,70 +77,93 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 25),
       height: 170,
-      width: 500,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Colors.white,
-        elevation: 3,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 150,
-                child: Image.network(
-                  _vm.heroList[index].imageSmall,
-                  fit: BoxFit.fitWidth,
-                ),
+      child: InkWell(
+        onTap: () {
+          Get.bottomSheet(
+            
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
               ),
-              Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 12),
-                    child: Text(
-                      _vm.heroList[index].name,
-                      maxLines: 3,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
+              child: DetalhesHeroPage(
+                id: _vm.heroList[index].id,
+                size: MediaQuery.of(context).size,
+              ),
+            ),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
+              ),
+            ),
+            elevation: 8,
+            isScrollControlled: true,
+            ignoreSafeArea: true,
+            backgroundColor: Colors.white,
+            barrierColor: Colors.black87,
+          );
+        },
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          color: Colors.white,
+          elevation: 4,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 170,
+                  child: Image.network(
+                    _vm.heroList[index].imageSmall,
+                    fit: BoxFit.fitWidth,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    child: Text(
-                      _vm.heroList[index].realName ?? '',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.italic,
-                          fontSize: 12),
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: TextButton(
-                        onPressed: () {
-                          Get.to(
-                              () =>
-                                  DetalhesHeroPage(id: _vm.heroList[index].id),
-                              transition: Transition.rightToLeft);
-                        },
+                ),
+                SizedBox(
+                  width: 150,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 12, right: 10),
+                        child: Text(
+                          _vm.heroList[index].name,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, top: 10, right: 5),
+                        child: Text(
+                          _vm.heroList[index].realName ?? '',
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 12),
+                        ),
+                      ),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 11.0, bottom: 10, right: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             Text(
-                              'Mais informações',
+                              'More info',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -154,11 +176,13 @@ class CustomCard extends StatelessWidget {
                                   color: Colors.black),
                             )
                           ],
-                        )),
-                  )
-                ],
-              ),
-            ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

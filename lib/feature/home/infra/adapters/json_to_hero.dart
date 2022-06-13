@@ -1,4 +1,5 @@
 import 'package:app_marvel/feature/home/domain/entities/hero_entity.dart';
+import 'package:app_marvel/feature/home/infra/adapters/json_to_quadrinhos.dart';
 
 class JsonToHero {
   static HeroEntity fromMap(dynamic json) {
@@ -20,6 +21,12 @@ class JsonToHero {
               .replaceFirstMapped(')', (match) => '')
           : null,
       description: json["description"],
+      totalComics: json['comics']['available'],
+      quadrinhos: [
+        ...(json['comics']['items'] as List)
+            .map(JsonToQuadrinhos.fromMap)
+            .toList()
+      ],
     );
   }
 }

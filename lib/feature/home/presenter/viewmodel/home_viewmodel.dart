@@ -1,6 +1,7 @@
 import 'package:app_marvel/core/utils/toast.dart';
 import 'package:app_marvel/feature/home/domain/entities/hero_entity.dart';
 import 'package:app_marvel/feature/home/domain/usecases/get_all_heroes.dart';
+import 'package:app_marvel/feature/home/domain/usecases/get_comics.dart';
 import 'package:app_marvel/feature/home/domain/usecases/get_hero_with_id.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
@@ -17,9 +18,17 @@ abstract class _HomeViewModelBase with Store {
         getHeroes(offSetHeroList);
       }
     });
+    scrollControllerComics.addListener(() {
+      if (isReadyGetMoreComics) {
+        getComics();
+      }
+    });
   }
   @observable
   bool isLoading = false;
+
+  @observable
+  bool isLoadingComics = false;
 
   @observable
   List<HeroEntity> heroList = [];
@@ -33,6 +42,20 @@ abstract class _HomeViewModelBase with Store {
 
   @observable
   int offSetHeroList = 0;
+
+  @observable
+  ScrollController scrollControllerComics =
+      ScrollController(initialScrollOffset: 0.0);
+
+  @computed
+  bool get isReadyGetMoreHeroes =>
+      scrollController.offset == scrollController.position.maxScrollExtent;
+
+  @computed
+  bool get isReadyGetMoreComics =>
+      scrollControllerComics.offset ==
+          scrollControllerComics.position.maxScrollExtent &&
+      heroEntity!.quadrinhos.length < heroEntity!.totalComics;
 
   @action
   setOffsetHeroList(int valor) => offSetHeroList += valor;
@@ -49,14 +72,31 @@ abstract class _HomeViewModelBase with Store {
 
   @action
   Future<void> getHeroesWithID(int id) async {
-    isLoading = true;
     final IGetHeroWithID usecase = GetIt.I<IGetHeroWithID>();
     var list = await usecase(id);
-    list.fold((l) => toastError(message: l.message), (r) => heroEntity = r);
-    isLoading = false;
+
+    list.fold((l) => toastError(message: l.message), (r) async {
+      isLoadingComics = true;
+      heroEntity = r;
+      heroEntity!.quadrinhos = List.from([]);
+
+      await getComics();
+      isLoadingComics = false;
+    });
   }
 
-  @computed
-  bool get isReadyGetMoreHeroes =>
-      scrollController.offset == scrollController.position.maxScrollExtent;
+  @action
+  Future getComics() async {
+    isLoading = true;
+    final IGetComics usecase = GetIt.I<IGetComics>();
+    final quadrinho = await usecase(
+      id: heroEntity!.id,
+      offset: heroEntity!.quadrinhos.length,
+    );
+    await quadrinho.fold((l) => toastError(message: l.message), (r) {
+      heroEntity!.quadrinhos += List.from(r);
+    });
+    heroEntity!.quadrinhos = List.from(heroEntity!.quadrinhos);
+    isLoading = false;
+  }
 }

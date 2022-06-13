@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initInject();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.white, // status bar color
+    statusBarIconBrightness: Brightness.dark,
+  ));
 
   runApp(const MyApp());
 }
@@ -19,20 +21,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Marvel Heroes',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
       ),
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Marvel Heroes',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        initialRoute: Routes.homePage,
-        getPages: AppPages.routes,
-      ),
+      initialRoute: Routes.homePage,
+      getPages: AppPages.routes,
     );
   }
 }

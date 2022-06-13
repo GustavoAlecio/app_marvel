@@ -5,20 +5,21 @@ class HeroEntity extends Equatable {
   final int id;
   final String name;
   final String imageSmall;
-
   final String imageBig;
   final String? realName;
   final String? description;
-  final List<Quadrinhos>? quadrinhos;
+  final int totalComics;
+  late List<Quadrinhos> quadrinhos = [];
 
-  const HeroEntity({
+  HeroEntity({
     required this.id,
     required this.name,
     required this.imageSmall,
     required this.imageBig,
     this.realName,
     this.description,
-    this.quadrinhos,
+    required this.totalComics,
+    required this.quadrinhos,
   });
 
   @override
@@ -29,6 +30,7 @@ class HeroEntity extends Equatable {
         imageBig,
         realName,
         description,
+        totalComics,
         quadrinhos,
       ];
 }
