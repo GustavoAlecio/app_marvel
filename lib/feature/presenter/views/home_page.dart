@@ -124,7 +124,7 @@ class CustomCard extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   ),
                 ),
-                SizedBox(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -134,6 +134,7 @@ class CustomCard extends StatelessWidget {
                         child: AutoSizeText(
                           _vm.heroList[index].name,
                           maxLines: 3,
+                          maxFontSize: 24,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Colors.black,
@@ -148,11 +149,12 @@ class CustomCard extends StatelessWidget {
                         child: AutoSizeText(
                           _vm.heroList[index].realName ?? '',
                           maxLines: 2,
+                          maxFontSize: 12,
                           style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 12),
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
                       ),
                       const Spacer(),
