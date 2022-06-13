@@ -1,11 +1,11 @@
-import 'package:app_marvel/feature/home/domain/repositories/hero_repository.dart';
-import 'package:app_marvel/feature/home/domain/usecases/get_all_heroes.dart';
-import 'package:app_marvel/feature/home/domain/usecases/get_comics.dart';
-import 'package:app_marvel/feature/home/domain/usecases/get_hero_with_id.dart';
-import 'package:app_marvel/feature/home/external/marvel_dio.dart';
-import 'package:app_marvel/feature/home/infra/datasource/hero_datasource.dart';
-import 'package:app_marvel/feature/home/infra/repositories/hero_repository.dart';
-import 'package:app_marvel/feature/home/presenter/viewmodel/home_viewmodel.dart';
+import 'package:app_marvel/feature/domain/repositories/hero_repository.dart';
+import 'package:app_marvel/feature/domain/usecases/get_all_heroes.dart';
+import 'package:app_marvel/feature/domain/usecases/get_comics.dart';
+import 'package:app_marvel/feature/domain/usecases/get_hero_with_id.dart';
+import 'package:app_marvel/feature/external/marvel_dio.dart';
+import 'package:app_marvel/feature/infra/datasource/hero_datasource.dart';
+import 'package:app_marvel/feature/infra/repositories/hero_repository.dart';
+import 'package:app_marvel/feature/presenter/viewmodel/home_viewmodel.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 

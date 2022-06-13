@@ -1,6 +1,6 @@
 import 'package:app_marvel/core/inject/inject.dart';
-import 'package:app_marvel/feature/home/presenter/routes/app_pages.dart';
-import 'package:app_marvel/feature/home/presenter/routes/routes.dart';
+import 'package:app_marvel/feature/presenter/routes/app_pages.dart';
+import 'package:app_marvel/feature/presenter/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
