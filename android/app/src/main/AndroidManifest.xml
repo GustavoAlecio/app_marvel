@@ -2,7 +2,7 @@
     package="com.example.app_marvel">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="app_marvel"
+        android:label="Marvel Heroes"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
