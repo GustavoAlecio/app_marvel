@@ -1,16 +1,22 @@
-# app_marvel
+<h1 align="center">
+	SOFTDESIGN - DESAFIO
+</h1>
+	
+<h4 align="center">Aplicação mobile desenvolvida para consumir API's</h4>
 
-A new Flutter project.
+<p align="center">
+  <a href="#como-executar">Como executar</a> •
+  <a href="#funcionalidades">Funcionalidades</a> •
+</p>
 
-## Getting Started
+## 🚀 Como executar
+<ul>
+  <li> fazer um clone do projeto para o seu computador </li>
+</ul>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 💬 Funcionalidades
+<ul>
+  - O app foi feito em Flutter
+- Uso do Git
+- Criação de um repositório público e disponibilização do link para acompanhamento do desenvolvimento
+</ul>
